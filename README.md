@@ -81,7 +81,7 @@ Build dependencies: `pkgconfig(sailfishapp)`, `Qt5Core/Xml/Qml/Quick/Network`,
 The RPM is produced under `RPMS/`. Install with:
 
 ```sh
-rpm -Uvh --nodeps --replacepkgs flowtune-0.3.7-1.aarch64.rpm
+rpm -Uvh --nodeps --replacepkgs flowtune-0.1-1.aarch64.rpm
 ```
 
 ## Compatibility

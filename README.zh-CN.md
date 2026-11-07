@@ -76,7 +76,7 @@ mb2 -t SailfishOS-5.2.0.22-aarch64 build
 产物在 `RPMS/` 下，安装：
 
 ```sh
-rpm -Uvh --nodeps --replacepkgs flowtune-0.3.7-1.aarch64.rpm
+rpm -Uvh --nodeps --replacepkgs flowtune-0.1-1.aarch64.rpm
 ```
 
 ## 兼容性
