@@ -5,7 +5,8 @@ feature-rich music player for Sailfish OS), adapted and extended for **Sailfish 
 OnePlus 5T (dumpling) hybris port**.
 
 <p align="center">
-  <img src="screenshots/coverflow.png" width="720" alt="Landscape cover flow">
+  <img src="screenshots/coverflow.png" width="640" alt="Landscape cover flow">
+  <img src="screenshots/nowplaying.png" width="260" alt="Now playing">
 </p>
 
 Chinese documentation: [README.zh-CN.md](README.zh-CN.md)
@@ -62,7 +63,9 @@ hidden (without reserving space) so the flow uses the full height.
 
 ## Screenshots
 
-![Landscape cover flow](screenshots/coverflow.png)
+| Landscape cover flow | Now playing |
+|---|---|
+| ![Cover flow](screenshots/coverflow.png) | ![Now playing](screenshots/nowplaying.png) |
 
 ## Building
 

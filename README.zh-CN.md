@@ -4,7 +4,8 @@
 针对 **Sailfish OS 5.2.0.22 + OnePlus 5T（dumpling）hybris 移植**做了适配和功能扩展。
 
 <p align="center">
-  <img src="screenshots/coverflow.png" width="720" alt="横屏 Cover Flow">
+  <img src="screenshots/coverflow.png" width="640" alt="横屏 Cover Flow">
+  <img src="screenshots/nowplaying.png" width="260" alt="正在播放">
 </p>
 
 English documentation: [README.md](README.md)
@@ -57,7 +58,9 @@ Cover Flow 占满屏幕时禁用系统返回手势，并隐藏底部迷你播放
 
 ## 截图
 
-![横屏 Cover Flow](screenshots/coverflow.png)
+| 横屏 Cover Flow | 正在播放 |
+|---|---|
+| ![横屏 Cover Flow](screenshots/coverflow.png) | ![正在播放](screenshots/nowplaying.png) |
 
 ## 构建
 

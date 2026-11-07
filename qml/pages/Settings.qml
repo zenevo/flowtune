@@ -19,7 +19,7 @@ Page {
         if (status === PageStatus.Activating) {
             loaded = false
             orientationMenu.currentIndex = savedorientation==="auto"? 0 : (savedorientation==="portrait"? 1 : 2)
-            albumsViewMenu.currentIndex = utils.viewmode==="flow"? 0 : utils.viewmode==="grid"? 1 : 2
+            albumsViewMenu.currentIndex = utils.viewmode==="list"? 1 : 0
             albumsSortMenu.currentIndex = utils.order==="album"? 0 : 1
             loaded = true
         }
@@ -114,21 +114,12 @@ Page {
                 id: albumsViewMenu
                 label: qsTr("Albums view mode")
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Flow") }
                     MenuItem { text: qsTr("Grid") }
                     MenuItem { text: qsTr("List") }
                 }
                 onCurrentItemChanged: {
                     if (!loaded) return
-                    if (currentIndex == 0) {
-                        utils.setViewMode("flow")
-                    }
-                    else if (currentIndex == 1) {
-                        utils.setViewMode("grid")
-                    }
-                    else {
-                        utils.setViewMode("list")
-                    }
+                    utils.setViewMode(currentIndex === 1 ? "list" : "grid")
                 }
             }
 
