@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="86px" height="86px" viewBox="0 0 86 86">
   <defs>
-    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="43" y1="1" x2="43" y2="85">
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="43" y1="0.4" x2="43" y2="85.6">
       <stop offset="0" stop-color="#EAE5C9"/>
       <stop offset="1" stop-color="#6CC6CB"/>
     </linearGradient>
@@ -10,12 +10,9 @@
     </filter>
   </defs>
 
-  <!-- willow leaf: pointed at both ends -->
-  <path fill="url(#bg)" d="M43 1
-      C 62 12, 80 28, 80 43
-      C 80 58, 62 74, 43 85
-      C 24 74, 6 58, 6 43
-      C 6 28, 24 12, 43 1 Z"/>
+  <!-- Sailfish OS launcher icon shape -->
+  <path fill="url(#bg)" d="M1.723,0.4H43c23.583,0,42.7,19.066,42.7,42.595V84.18c0,0.784-0.637,1.42-1.423,1.42H43
+    c-23.583,0-42.7-19.076-42.7-42.606V1.82C0.3,1.035,0.937,0.4,1.723,0.4z"/>
 
   <!-- circle -->
   <circle cx="43" cy="43" r="24" fill="none" stroke="#0E3B4A" stroke-width="5"/>
