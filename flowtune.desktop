@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=flowtune
+Exec=flowtune
+Name=FlowTune
+
+[X-Sailjail]
+OrganizationName=sailfishos-applications
+# ApplicationName does not have to be identical to Name
+ApplicationName=flowtune
+# Add the required permissions here
+Permissions=UserDirs;Audio;Bluetooth;Internet;RemovableMedia
