@@ -1,4 +1,4 @@
-# FlowTune — Sailfish OS 5.2 / OnePlus 5T edition
+# FlowTune
 
 An enhanced fork of [FlowPlayer](https://github.com/sailfishos-applications/flowplayer) (the
 feature-rich music player for Sailfish OS), adapted and extended for **Sailfish OS 5.2.0.22 on the
