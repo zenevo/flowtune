@@ -13,8 +13,14 @@ BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(libresource)
 BuildRequires:  pkgconfig(libresource-glib)
 BuildRequires:  pkgconfig(taglib)
-Requires:       jolla-mediaplayer
-Requires:       mpris-qt5-qml-plugin
+# Self-contained: the QML dependency generator would otherwise re-add
+# jolla-mediaplayer / mpris-qt5-qml-plugin from the imports this package now
+# carries, or provides itself.
+%global __requires_exclude ^(jolla-mediaplayer|mpris-qt5-qml-plugin|libmpris-qt5\.so\.1.*)$
+
+# No runtime package dependencies: the MPRIS QML module it needs is bundled
+# (qml/org/nemomobile/mpris + lib/libmpris-qt5), and the jolla-mediaplayer
+# module was replaced by local code (see qml/pages/MediaKey.qml).
 
 %description
 FlowTune is a fork of FlowPlayer, the feature rich music player for Sailfish OS,
@@ -31,6 +37,10 @@ make %{?_smp_mflags}
 %install
 cd flowtune-%{version}
 make install INSTALL_ROOT=%{buildroot}
+# bundled MPRIS runtime library (see src/FlowTune.cpp: LD_LIBRARY_PATH)
+install -d %{buildroot}%{_datadir}/flowtune/lib
+install -m 755 lib/libmpris-qt5.so.1.0.6 %{buildroot}%{_datadir}/flowtune/lib/
+ln -sf libmpris-qt5.so.1.0.6 %{buildroot}%{_datadir}/flowtune/lib/libmpris-qt5.so.1
 install -D -m 644 flowtune.desktop %{buildroot}%{_datadir}/applications/flowtune.desktop
 for s in 86 108 128 172 256 512; do
   install -D -m 644 flowtune-$s.png %{buildroot}%{_datadir}/icons/hicolor/${s}x${s}/apps/flowtune.png

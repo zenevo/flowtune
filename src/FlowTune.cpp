@@ -32,6 +32,15 @@ int main(int argc, char *argv[])
     QTextCodec *linuxCodec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(linuxCodec);
 
+    // The MPRIS QML module is bundled with the app (so mpris-qt5-qml-plugin
+    // is not needed): its runtime library lives in the app's own lib folder.
+    {
+        const QByteArray old = qgetenv("LD_LIBRARY_PATH");
+        qputenv("LD_LIBRARY_PATH",
+                QByteArray("/usr/share/flowtune/lib")
+                + (old.isEmpty() ? QByteArray() : QByteArray(":") + old));
+    }
+
     QGuiApplication *app = SailfishApp::application(argc, argv);
     app->setOrganizationName("sailfishos-applications");
     app->setApplicationName("flowtune");

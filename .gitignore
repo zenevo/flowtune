@@ -43,3 +43,7 @@ translations/*.qm
 # Sailfish SDK binaries
 RPMS
 flowplayer
+
+# bundled at build time on purpose (self-contained package)
+!lib/*.so*
+!qml/org/nemomobile/mpris/*.so

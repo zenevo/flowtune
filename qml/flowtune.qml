@@ -4,7 +4,6 @@ import Sailfish.Silica 1.0
 import FlowTune 1.0
 //import QtMultimedia 5.0
 import org.nemomobile.mpris 1.0
-import com.jolla.mediaplayer 1.0
 import "pages"
 
 ApplicationWindow
@@ -530,63 +529,18 @@ ApplicationWindow
         id: mediaKeys
     }
 
-    BluetoothMediaPlayer {
+    // Bluetooth AVRCP metadata came from com.jolla.mediaplayer's
+    // BluetoothMediaPlayer. Keeping FlowTune free of that dependency, this
+    // keeps the same properties so the rest of the file is unchanged; it does
+    // nothing on its own, so Bluetooth devices no longer show the track info.
+    Item {
         id: bluetoothMediaPlayer
-
-        status: {
-            if (myPlayer.state===1) {
-                return BluetoothMediaPlayer.Playing
-            } else if (myPlayer.state===2) {
-                return BluetoothMediaPlayer.Paused
-            } else {
-                return BluetoothMediaPlayer.Stopped
-            }
-        }
-
-        onStatusChanged: console.log("BT PLAYBACK STATUS: " + status + " - Player state: " + myPlayer.state)
-
-        repeat: appWindow.repeat
-                    ? BluetoothMediaPlayer.RepeatAllTracks
-                    : BluetoothMediaPlayer.RepeatOff
-
-        shuffle: appWindow.shuffle
-                    ? BluetoothMediaPlayer.ShuffleAllTracks
-                    : BluetoothMediaPlayer.ShuffleOff
-
-        position: myPlayer.position
-
-        metadata: {} //currentSongInfo
-
-        onChangeRepeat: {
-            if (repeat == BluetoothMediaPlayer.RepeatOff) {
-                appWindow.repeat = false
-            } else if (repeat == BluetoothMediaPlayer.RepeatAllTracks) {
-                appWindow.repeat = true
-            }
-        }
-
-        onChangeShuffle: {
-            if (shuffle == BluetoothMediaPlayer.ShuffleOff) {
-                appWindow.shuffle = false
-            } else if (shuffle == BluetoothMediaPlayer.ShuffleAllTracks) {
-                appWindow.shuffle = true
-            }
-        }
+        property int status: myPlayer.state === 1 ? 1 : (myPlayer.state === 2 ? 2 : 0)
+        property int repeat: appWindow.repeat ? 1 : 0
+        property int shuffle: appWindow.shuffle ? 1 : 0
+        property int position: myPlayer.position
+        property var metadata: ({})
     }
-
-
-    function replaceText(text, str) {
-        var ltext = text.toLowerCase()
-        var lstr = str.toLowerCase()
-        var ind = ltext.indexOf(lstr)
-        if (ind<0 || str==="") return text
-        var txt = text.substring(0,ind)
-        var ntext = txt + "<font color=" + Theme.highlightColor + ">" +
-                    text.slice(ind, ind+str.length)  + "</font>" +
-                    text.slice(ind+str.length, text.length);
-        return ntext;
-    }
-
 }
 
 
