@@ -296,6 +296,11 @@ void Datos::DatosPrivate::populateItems()
     int entries = q->listado.count();
 
     emit q->beginResetModel();
+    // Reloading (e.g. after a cover was downloaded, or on database refresh)
+    // must not append to the previous contents, otherwise every album shows
+    // up twice in the models until the app is restarted.
+    while (!items.isEmpty())
+        delete items.takeFirst();
     //q->beginInsertRows(QModelIndex(), 0, entries-1);
 
 

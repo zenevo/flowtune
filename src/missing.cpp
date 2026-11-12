@@ -149,6 +149,9 @@ void Missing::MissingPrivate::populateItems()
     int entries = q->lista.count();
 
     emit q->beginResetModel();
+    // Same as Datos: reloading must replace the previous rows, not append.
+    while (!items.isEmpty())
+        delete items.takeFirst();
     q->beginInsertRows(QModelIndex(), 0, entries-1);
 
     for (int i=0; i<entries; ++i)
