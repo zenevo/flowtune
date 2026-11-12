@@ -80,7 +80,7 @@ Dialog {
         //ListElement { name: "Bulgarian"; value: "bg" }
         ListElement { name: "Catalan"; value: "ca" }
         //ListElement { name: "Chinese"; value: "zh" }
-        //ListElement { name: "Chinese (China)"; value: "zh_CN" }
+        ListElement { name: "Chinese (China)"; value: "zh_CN" }
         //ListElement { name: "Chinese (Hong Kong)"; value: "zh_HK" }
         //ListElement { name: "Chinese (Taiwan)"; value: "zh_TW" }
         //ListElement { name: "Croatian"; value: "hr" }

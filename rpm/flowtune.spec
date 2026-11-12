@@ -1,9 +1,9 @@
 Name:       flowtune
 Summary:    Music player for Sailfish OS (FlowPlayer fork with a landscape cover flow)
-Version:    0.1
+Version:    0.2
 Release:    1
 License:    MPL-2.0
-Source0:    flowtune-0.1.tar.gz
+Source0:    flowtune-0.2.tar.gz
 BuildRequires:  pkgconfig(sailfishapp)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Xml)

@@ -96,7 +96,8 @@ TRANSLATIONS += translations/ca.ts \
                 translations/it.ts  \
                 translations/nl.ts  \
                 translations/ru.ts  \
-                translations/sv.ts
+                translations/sv.ts  \
+                translations/zh_CN.ts
 
 HEADERS += \
     src/coverflowtransform.h \

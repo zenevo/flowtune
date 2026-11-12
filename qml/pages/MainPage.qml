@@ -6,9 +6,15 @@ import "dateandtime.js" as DT
 
 Page {
     id: root
+    // Only the albums section switches to the landscape cover flow. The
+    // artists list keeps its normal list layout in landscape.
+    readonly property bool landscapeFlow: appWindow.deviceLandscape
+                                          && lastGroup === "albums"
+                                          && !appWindow.flowSuppressed
+
     // The landscape cover flow owns the whole screen (all swipes go to the
     // carousel), so the system back gesture is disabled there.
-    backNavigation: !appWindow.deviceLandscape
+    backNavigation: !landscapeFlow
     property bool loaded: false
     // was referenced all over this page but never defined
     property bool isPortrait: height >= width
@@ -17,9 +23,9 @@ Page {
     // no animated size change between orientations (it made the list briefly
     // narrower than the screen when rotating back to portrait)
     defaultOrientationTransition: Transition {}
-    // black page background in landscape: hides the theme background while the
-    // compositor rotates the window
-    backgroundColor: appWindow.deviceLandscape ? "black" : Theme.rgba(palette.overlayBackgroundColor, 0)
+    // black page background behind the cover flow: hides the theme background
+    // while the compositor rotates the window
+    backgroundColor: landscapeFlow ? "black" : Theme.rgba(palette.overlayBackgroundColor, 0)
 
     canNavigateForward: database.loaded
 
@@ -58,7 +64,7 @@ Page {
         anchors.fill: parent
         z: 500
         // only the albums section uses the landscape cover flow
-        active: appWindow.deviceLandscape && lastGroup === "albums"
+        active: root.landscapeFlow
         // visibility and the fade/zoom-in are handled inside the panel
 
         onAlbumActivated: pageStack.push("SongListView.qml",
@@ -67,7 +73,9 @@ Page {
 
     SilicaFlickable {
         id: mainPanel
-        visible: !appWindow.deviceLandscape
+        // In landscape the list is shown for the artists section; the albums
+        // section is replaced by the cover flow.
+        visible: !appWindow.deviceLandscape || lastGroup === "artists"
         anchors.fill: parent
 
         PullDownMenu {
