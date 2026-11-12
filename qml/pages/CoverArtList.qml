@@ -27,12 +27,16 @@ BackgroundItem
 
     property string artist
     property string album
+    // Bump this to force the image to be re-read from disk (used by the
+    // cover flow, whose delegates stay alive when a cover is replaced).
+    property int refreshToken: 0
 
     height: itemheight
     width: itemwidth
     clip: true
 
     onItemimgChanged: reload()
+    onRefreshTokenChanged: reload()
 
     function reload() {
         coverImg.source = ""

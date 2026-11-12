@@ -29,6 +29,34 @@ Item {
             allAlbums.loadAlbums(utils.order)
     }
 
+    // The flow delegates are created once and stay alive while covers are
+    // downloaded, so replacing a cover file on disk does not refresh them by
+    // itself. Bump a token (debounced, bulk downloads emit one signal per
+    // cover) and every delegate re-reads its image.
+    property int coverRevision: 0
+
+    Timer {
+        id: coverRefresh
+        interval: 700
+        repeat: false
+        onTriggered: root.coverRevision++
+    }
+
+    Connections {
+        target: coversearch
+        onImageChanged: coverRefresh.restart()
+    }
+
+    Connections {
+        target: missing
+        onAlbumCoverChanged: coverRefresh.restart()
+    }
+
+    Connections {
+        target: lfm
+        onBioImageChanged: coverRefresh.restart()
+    }
+
     Component.onCompleted: reload()
 
     Connections {
@@ -91,6 +119,7 @@ Item {
                 CoverArtList {
                     id: dlgImg
                     itemimg: model.coverart==="loading" ? "" : model.coverart
+                    refreshToken: root.coverRevision
                     itemwidth: item.width
                     itemheight: itemwidth
                     artist: model.artist
@@ -124,6 +153,7 @@ Item {
                         artist: model.artist
                         album: model.title
                         itemimg: model.coverart==="loading" ? "" : model.coverart
+                        refreshToken: root.coverRevision
                         text: model.title
                         showBorder: true
                         anchors.centerIn: parent
