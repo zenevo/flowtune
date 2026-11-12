@@ -44,7 +44,8 @@ Cover Flow 只在需要的地方出现：
 | 专辑列表（MainPage） | 列表 / 网格 | Cover Flow |
 | 曲目页（SongsPage） | 列表 | Cover Flow |
 | 专辑歌曲列表（SongListView） | 列表 | Cover Flow（**仅从竖屏旋转过来时**，从 Cover Flow 点进来的不显示） |
-| Artists、设置等其它页面 | 保持不变 | 保持不变 |
+| Artists（歌手） | 列表 | **正常列表，不再出 cover flow** |
+| 设置等其它页面 | 保持不变 | 保持不变 |
 
 Cover Flow 占满屏幕时禁用系统返回手势，并隐藏底部迷你播放器（不为其预留高度），让轮播使用完整高度。
 
@@ -55,6 +56,29 @@ Cover Flow 占满屏幕时禁用系统返回手势，并隐藏底部迷你播放
 - **转回竖屏时列表不再「先缩小再恢复」**：底部边距改为立即设置，而不是跟随动画值。
 - **RPM 不再捆绑 `libjolla-mediaplayer`**（会与发行版包冲突），改为声明
   `Requires: jolla-mediaplayer, mpris-qt5-qml-plugin`。
+
+## 更新记录
+
+**0.4 — 下载封面后 cover flow 立即刷新**
+
+横屏 cover flow 的 delegate 是页面创建时一次性建好的，整个会话期间都活着。封面文件是**就地替换**
+（路径不变）的，所以单张下载、批量「下载专辑封面」或 Last.fm 艺人照片保存后，flow 里仍然是旧图，
+只有重启才更新；竖屏列表因为页面进出会重建 delegate，看起来是正常的。现在 flow 订阅封面保存信号，
+用 700 ms 防抖的版本号让每个 delegate 重新读取图片（批量下载不会每张都全量刷新），且不会重置当前位置。
+
+**0.3 — 下载封面后专辑重复**
+
+`Datos::populateItems()`（专辑/歌手/歌曲）和 `Missing::populateItems()` 在发出模型重置后，仍然把新行
+**追加**到内部列表里。于是任何一次重载（例如下载封面后的刷新）都会让每一行重复：cover flow 里每张专辑
+出现两次，数量和曲库对不上。重启后模型是新建的，所以看起来「重启就好了」。现在在模型重置时先清空旧行。
+
+**0.2 — 横屏行为与简体中文**
+
+- **Artists（歌手）列表**横屏时保持普通列表，cover flow 只用于专辑列表和歌曲列表。
+- 返回手势和黑色背景只在真正显示 cover flow 时生效，歌手列表横屏恢复成普通页面行为。
+- 新增**简体中文**翻译（`translations/zh_CN.ts`，248 条），语言选择里增加 *Chinese (China)*。
+
+---
 
 ## 截图
 
@@ -76,7 +100,7 @@ mb2 -t SailfishOS-5.2.0.22-aarch64 build
 产物在 `RPMS/` 下，安装：
 
 ```sh
-rpm -Uvh --nodeps --replacepkgs flowtune-0.1-1.aarch64.rpm
+rpm -Uvh --nodeps --replacepkgs flowtune-0.4-1.aarch64.rpm
 ```
 
 ## 兼容性

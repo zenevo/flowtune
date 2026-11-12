@@ -46,7 +46,8 @@ The cover flow is only used where it makes sense:
 | Albums (MainPage) | list / grid | cover flow |
 | Tracks (SongsPage) | list | cover flow |
 | Album's song list (SongListView) | list | cover flow — only when rotated from portrait, not when opened from the cover flow |
-| Artists, Settings, others | unchanged | unchanged |
+| Artists | list | normal list — no cover flow |
+| Settings, others | unchanged | unchanged |
 
 The system back gesture is disabled while the cover flow owns the screen, and the mini player is
 hidden (without reserving space) so the flow uses the full height.
@@ -60,6 +61,36 @@ hidden (without reserving space) so the flow uses the full height.
 - `pam`-independent, self-contained RPM: the package no longer bundles `libjolla-mediaplayer`
   (which conflicted with the distro package); it declares `Requires: jolla-mediaplayer,
   mpris-qt5-qml-plugin` instead.
+
+## Changelog
+
+**0.4 — cover flow refresh after downloading artwork**
+
+The landscape flow keeps its delegates alive for the whole session. Replacing a cover file on
+disk (single download, the bulk *Download album covers* run, or Last.fm artist photos) therefore
+left the old artwork on screen until the next restart, while the portrait lists — whose delegates
+are re-created — looked correct. The flow now watches the cover-save signals and bumps a debounced
+revision token (700 ms, so a bulk run does not refresh on every single cover), which makes every
+delegate re-read its image without losing the current position.
+
+**0.3 — duplicate albums after downloading covers**
+
+`Datos::populateItems()` (albums/artists/songs) and `Missing::populateItems()` emitted a model
+reset but *appended* to their internal item list. Every reload — e.g. the refresh that follows a
+cover download — duplicated every row: each album appeared twice in the cover flow and the count
+no longer matched the library. Restarting the app created a fresh model, which is why it looked
+fixed after a restart. The item list is now cleared inside the model reset.
+
+**0.2 — landscape behaviour and Simplified Chinese**
+
+- The **Artists** list keeps its normal layout in landscape; the cover flow is now only used for
+  the album and track lists.
+- Back gesture / black backdrop are tied to the cover flow actually being shown, so the artists
+  list in landscape behaves like a normal page again.
+- New **Simplified Chinese** translation (`translations/zh_CN.ts`, 248 strings) and a
+  *Chinese (China)* entry under *Settings → Language*.
+
+---
 
 ## Screenshots
 
@@ -81,7 +112,7 @@ Build dependencies: `pkgconfig(sailfishapp)`, `Qt5Core/Xml/Qml/Quick/Network`,
 The RPM is produced under `RPMS/`. Install with:
 
 ```sh
-rpm -Uvh --nodeps --replacepkgs flowtune-0.1-1.aarch64.rpm
+rpm -Uvh --nodeps --replacepkgs flowtune-0.4-1.aarch64.rpm
 ```
 
 ## Compatibility
